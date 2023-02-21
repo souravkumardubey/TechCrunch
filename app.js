@@ -3,11 +3,15 @@ const loader = document.querySelector(".loader");
 const errorMessage = document.querySelector(".error-message");
 
 loader.style.display = "block";
-  
+function custom_sort(a, b) {
+  return new Date(a.date).getTime() - new Date(b.date).getTime();
+}
+
 axios.get("https://techcrunch.com/wp-json/wp/v2/posts?per_page=20&context=embed")
   .then((response) => {
     const posts = response.data;
-
+    
+    posts.sort(custom_sort);
     if (posts.length === 0) {
       errorMessage.textContent = "No results found.";
       errorMessage.style.display = "block";
